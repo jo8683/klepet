@@ -8,36 +8,13 @@ function divElementEnostavniTekst(sporocilo) {
   }
 }
 
-// podobno kot pri divElementEnostavniTekst
- function divElementSlika(sporocilo) {
-    var obstajajoSlike = sporocilo.indexOf('<img') > -1;
-    if (obstajajoSlike) {
-      sporocilo = sporocilo.replace(/\</g, '&lt;').
-      replace(/\>/g, '&gt;').
-      replace(/&lt;img/g, '<img').
-      replace(/png\' \/&gt;/g, 'png\' />').
-      replace(/jpg\' \/&gt;/g, 'jpg\' />').
-      replace(/gif\' \/&gt;/g, 'gif\' />');
-   
-      return $('<div style="font-weight: bold"></div>').html(sporocilo);
-    } else {
-      return $('<div style="font-weight: bold;"></div>').text(sporocilo);
-   }
- }
-
 function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
 }
 
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
-  
-   // je povezava na sliko?
-  sporocilo = sporocilo.replace(new RegExp('\\bhttps?://[^ ]*(\.jpg|\.png|\.gif)\\b', 'gi'), function(link) {
-    var zamenjava = link + " <img class='slika' src='" + link + "' />";
-    return zamenjava;
-  });
-  
+
   sporocilo = dodajSmeske(sporocilo);
   var sistemskoSporocilo;
 
@@ -49,7 +26,7 @@ function procesirajVnosUporabnika(klepetApp, socket) {
   } else {
     sporocilo = filtirirajVulgarneBesede(sporocilo);
     klepetApp.posljiSporocilo(trenutniKanal, sporocilo);
-    $('#sporocila').append(divElementSlika(sporocilo));
+    $('#sporocila').append(divEnostavniTekst(sporocilo));
     $('#sporocila').scrollTop($('#sporocila').prop('scrollHeight'));
   }
 
