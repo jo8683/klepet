@@ -106,6 +106,13 @@ $(document).ready(function() {
     socket.emit('uporabniki', {kanal: trenutniKanal});
   }, 1000);
 
+  // hitro posiljanje zasebnih sporocil
+  $('#seznam-uporabnikov').on('click', 'div',(function() {
+  var izbraniUporabnik = $(this).text();
+  $('#poslji-sporocilo').val("/zasebno \""+izbraniUporabnik+"\"");
+  $('#poslji-sporocilo').focus();
+  }));
+
   $('#poslji-sporocilo').focus();
 
   $('#poslji-obrazec').submit(function() {
